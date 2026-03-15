@@ -199,7 +199,15 @@ source=(
 # LLVM makedepends
 if [[ "$buildtype" =~ (lto|clang) ]]; then
     makedepends+=(clang llvm lld)
-    source+=("dkms-clang.patch" "flags-clang.patch")
+
+    if [ "_build_debug" = "yes" ]; then
+        echo "disable flags-clang.patch"
+        source+=("dkms-clang.patch")
+    else
+        source+=("dkms-clang.patch" "flags-clang.patch")
+    fi
+
+    
     [[ "$_autofdo" =~ ^(yes|y|1)$ ]] && source+=("autofdo.patch")
 
     BUILD_FLAGS=(CC=clang LD=ld.lld LLVM_IAS=1)
