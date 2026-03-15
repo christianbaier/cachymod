@@ -67,6 +67,8 @@ new_conf() {
     echo ": \${_cpusched:=eevdf}"
     echo ": \${_buildtype:=thin}"
     echo ": \${_autofdo:=no}"
+    echo ": \${_propeller:=no}"
+    echo ": \${_propeller_profiles:=no}"
     echo ": \${_autofdo_profile_name:=cachymod.afdo}"
     echo ": \${_hugepage:=always}"
     echo ": \${_kernel_suffix:=${conf// /-}}"
@@ -102,6 +104,8 @@ save_conf() {
     echo ": \${_cpusched:=${_cpusched}}"
     echo ": \${_buildtype:=${_buildtype}}"
     echo ": \${_autofdo:=${_autofdo}}"
+    echo ": \${_propeller:=${_propeller}}"
+    echo ": \${_propeller_profiles:=${_propeller_profiles}}"
     echo ": \${_autofdo_profile_name:=${_autofdo_profile_name}}"
     echo ": \${_hugepage:=${_hugepage}}"
     echo ": \${_kernel_suffix:=${_kernel_suffix}}"
@@ -245,6 +249,24 @@ input_buildtype() {
 input_autofdo() {
   local -n varref="$1"; local msg=
   msg+="Opt-in to include the AutoFDO profile when building the kernel.\n"
+  msg+="Note: Some folks have reported lesser performance. (YMMV)\n"
+  msg+="This is ignored for the 'gcc' build type.\n"
+
+  confirm $1 "Build kernel with the AutoFDO profile?" "$msg"
+}
+
+input_propeller() {
+  local -n varref="$1"; local msg=
+  msg+="Propeller should be applied, after the kernel is optimized with AutoFDO.\n"
+  msg+="Note: Some folks have reported lesser performance. (YMMV)\n"
+  msg+="This is ignored for the 'gcc' build type.\n"
+
+  confirm $1 "Build kernel with the AutoFDO profile?" "$msg"
+}
+
+input_propeller_profiles() {
+  local -n varref="$1"; local msg=
+  msg+="Propeller should be applied, after the kernel is optimized with AutoFDO.\n"
   msg+="Note: Some folks have reported lesser performance. (YMMV)\n"
   msg+="This is ignored for the 'gcc' build type.\n"
 
@@ -462,7 +484,7 @@ edit_conf() {
   local selected="Main menu"
 
   while true; do
-    local _cpusched= _buildtype= _autofdo= _hugepage= _kernel_suffix=
+    local _cpusched= _buildtype= _autofdo= _hugepage= _kernel_suffix= _propeller_profiles= _propeller=
     local _localmodcfg= _localmodcfg_path= _localmodcfg_minimal=
     local _makenconfig= _makexconfig= _tcp_bbr3= _HZ_ticks= _ticktype=
     local _preempt= _processor_opt= _prevent_avx2= _build_debug=
@@ -549,6 +571,16 @@ edit_conf() {
         selected=": \${_autofdo:=$_autofdo}"
         [ "$_autofdo" = "$oldval" ] && continue ;;
 
+      ': ${_propeller:='*)
+        input_propeller _propeller
+        selected=": \${_propeller:=$_propeller}"
+        [ "$_propeller" = "$oldval" ] && continue ;;
+
+      ': ${_propeller_profiles:='*)
+        input_propeller_profiles _propeller_profiles
+        selected=": \${_propeller_profiles:=$__propeller_profiles}"
+        [ "$_propeller_profiles" = "$oldval" ] && continue ;;
+      
       ': ${_autofdo_profile_name:='*)
         input_autofdo_profile_name _autofdo_profile_name
         selected=": \${_autofdo_profile_name:=$_autofdo_profile_name}"

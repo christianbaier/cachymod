@@ -44,6 +44,8 @@ else
   : ${_cpusched:=eevdf}
   : ${_buildtype:=thin}
   : ${_autofdo:=no}
+  : ${_propeller:=no}
+  : ${_propeller_profiles:=no}
   : ${_autofdo_profile_name:=cachymod.afdo}
   : ${_hugepage:=always}
   : ${_kernel_suffix:=}
@@ -71,7 +73,7 @@ else
   : ${_extra_patch_or_url9:=}
 fi
 
-export _cpusched _buildtype _autofdo _hugepage _kernel_suffix
+export _cpusched _buildtype _autofdo _hugepage _kernel_suffix _propeller
 export _localmodcfg _localmodcfg_path _localmodcfg_minimal
 export _makenconfig _makexconfig _tcp_bbr3 _HZ_ticks _ticktype
 export _preempt _processor_opt _prevent_avx2 _build_debug
