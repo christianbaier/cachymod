@@ -214,7 +214,7 @@ if [[ "$buildtype" =~ (lto|clang) ]]; then
     makedepends+=(clang llvm lld)
     source+=("dkms-clang.patch")
 
-    if [ "_build_debug" = "no" ]; then
+    if [ "$_build_debug" = "no" ]; then
         source+=("flags-clang.patch")
     fi
 

@@ -67,8 +67,6 @@ new_conf() {
     echo ": \${_cpusched:=eevdf}"
     echo ": \${_buildtype:=thin}"
     echo ": \${_autofdo:=no}"
-    echo ": \${_propeller:=no}"
-    echo ": \${_propeller_profiles:=no}"
     echo ": \${_autofdo_profile_name:=cachymod.afdo}"
     echo ": \${_hugepage:=always}"
     echo ": \${_kernel_suffix:=${conf// /-}}"
@@ -84,6 +82,8 @@ new_conf() {
     echo ": \${_processor_opt:=native}"
     echo ": \${_prevent_avx2:=no}"
     echo ": \${_build_debug:=no}"
+    echo ": \${_propeller:=no}"
+    echo ": \${_propeller_profiles:=no}"
     echo ": \${_extra_patch_or_url0:=}"
     echo ": \${_extra_patch_or_url1:=}"
     echo ": \${_extra_patch_or_url2:=}"
@@ -104,8 +104,6 @@ save_conf() {
     echo ": \${_cpusched:=${_cpusched}}"
     echo ": \${_buildtype:=${_buildtype}}"
     echo ": \${_autofdo:=${_autofdo}}"
-    echo ": \${_propeller:=${_propeller}}"
-    echo ": \${_propeller_profiles:=${_propeller_profiles}}"
     echo ": \${_autofdo_profile_name:=${_autofdo_profile_name}}"
     echo ": \${_hugepage:=${_hugepage}}"
     echo ": \${_kernel_suffix:=${_kernel_suffix}}"
@@ -121,6 +119,8 @@ save_conf() {
     echo ": \${_processor_opt:=${_processor_opt}}"
     echo ": \${_prevent_avx2:=${_prevent_avx2}}"
     echo ": \${_build_debug:=${_build_debug}}"
+    echo ": \${_propeller:=${_propeller}}"
+    echo ": \${_propeller_profiles:=${_propeller_profiles}}"
     echo ": \${_extra_patch_or_url0:=${_extra_patch_or_url0}}"
     echo ": \${_extra_patch_or_url1:=${_extra_patch_or_url1}}"
     echo ": \${_extra_patch_or_url2:=${_extra_patch_or_url2}}"
@@ -258,19 +258,18 @@ input_autofdo() {
 input_propeller() {
   local -n varref="$1"; local msg=
   msg+="Propeller should be applied, after the kernel is optimized with AutoFDO.\n"
-  msg+="Note: Some folks have reported lesser performance. (YMMV)\n"
-  msg+="This is ignored for the 'gcc' build type.\n"
+  msg+="Enable this for generating a propeller profile.\n"
 
-  confirm $1 "Build kernel with the AutoFDO profile?" "$msg"
+  confirm $1 "Build kernel with Propeller support?" "$msg"
 }
 
 input_propeller_profiles() {
   local -n varref="$1"; local msg=
   msg+="Propeller should be applied, after the kernel is optimized with AutoFDO.\n"
-  msg+="Note: Some folks have reported lesser performance. (YMMV)\n"
-  msg+="This is ignored for the 'gcc' build type.\n"
+  msg+="Enable this after profile generation. The profile must reside in\n"
+  msg+="the same folder as the PKGBUILD file.\n"
 
-  confirm $1 "Build kernel with the AutoFDO profile?" "$msg"
+  confirm $1 "Build kernel with Propeller profile?" "$msg"
 }
 
 input_autofdo_profile_name() {
