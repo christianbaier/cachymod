@@ -74,7 +74,7 @@ else
 fi
 
 export _cpusched _buildtype _autofdo _hugepage _kernel_suffix _propeller
-export _localmodcfg _localmodcfg_path _localmodcfg_minimal
+export _localmodcfg _localmodcfg_path _localmodcfg_minimal _propeller_profiles
 export _makenconfig _makexconfig _tcp_bbr3 _HZ_ticks _ticktype
 export _preempt _processor_opt _prevent_avx2 _build_debug
 export _extra_patch_or_url0 _extra_patch_or_url1 _extra_patch_or_url2
